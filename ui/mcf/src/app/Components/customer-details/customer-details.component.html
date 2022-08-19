@@ -71,7 +71,7 @@
                           <label>Customer Name*</label>
                         </div>
                         <div class="col-md-8">
-                          <input type="text" placeholder="Customer Name" [(ngModel)]= "model.Client_Name" maxlength="100" class="form-control" formControlName="Name"/>
+                          <input type="text" placeholder="Company Name" [(ngModel)]= "model.Client_Name" maxlength="100" class="form-control" formControlName="Name"/>
                           <div class="error-alert" *ngIf="AddUserStep1.controls.Name.errors && AddUserStep1.touched">
                             <div class="error-alert" *ngIf="AddUserStep1.controls.Name.errors.required">Customer Name is required</div> 
                         </div>
