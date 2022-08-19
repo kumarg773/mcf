@@ -1,0 +1,420 @@
+/* You can add global styles to this file, and also import other style files */
+/* You can add global styles to this file, and also import other style files */
+@import "~ng-pick-datetime/assets/style/picker.min.css";
+
+.cdk-overlay-container
+{
+    z-index: 9999 !important;
+}
+.cdk-overlay-pane{
+    width: 300px;
+}
+body{
+	overflow-x: hidden;
+}
+.body_section{
+    padding-left: 10!important;
+    padding-right: 0!important;
+}
+.body_main_section{
+    padding-right: 0!important;
+}
+.error-alert{
+    color:red !important;
+}
+bs-datepicker-container, bs-daterangepicker-container {
+    z-index: 99999 !important;
+}
+.pagination>.active>a, .pagination>.active>a:focus, .pagination>.active>a:hover, .pagination>.active>span, .pagination>.active>span:focus, .pagination>.active>span:hover{
+    background: #b5000a!important;
+	border-color: #b5000a!important;
+}
+.sidebar_col_10{
+    background: #1e282c;
+    margin-left: -3px !important;
+    margin-top: 0;
+    /* overflow: hidden; */
+  }
+.page-item.active .page-link{
+	color: white!important;
+}
+.vertical-tab{
+    margin-top: 5px;
+}
+.tab-content .table{
+    margin-top: 0!important;
+}
+.vertical-tab .nav{
+    width: 22%;
+    float: left;
+    border-right: 1px solid #ddd;
+    min-height: 500px;
+}
+.vertical-tab .nav-item a{
+    background: none;
+    color: #3e859a;   
+    margin-right: -1px;
+}
+
+.vertical-tab .nav-item a.active{
+    border: 1px solid #bfbfbf;
+    border-radius: 5px 0px 0px 5px;
+    border-right: none;
+    background: none;
+    color: black !important;
+}
+
+.nav-pills>li.active>a, .nav-pills>li.active>a:focus, .nav-pills>li.active>a:hover{
+    background-color: white!important;
+}
+.vertical-tab .tab-content{
+    width: 78%;
+    float: right;
+    padding-left: 15px;
+}
+
+.table{
+    margin-top: 9px;
+}
+.table thead{
+    background: grey;
+    color: white;
+}
+.table thead th, .table tbody td{
+    text-align: center;
+}
+.table tbody td{
+    padding: 5px!important;
+}
+.table .glyphicon{
+    margin-top: -4px;
+    font-size: small;
+    border: 2px solid;
+    padding: 5px;
+    border-radius: 4px;
+    color: #3c8dbc;
+}
+/*----- Modal popup starts------*/
+label {
+    font-weight: normal!important;
+}
+.modal-header{
+    color: white;
+}
+.DialogHeading{
+    font-size: 18px;
+    color: #ffffff;
+    padding: 0px 0px;
+    text-transform: capitalize;
+    margin: 0;
+    line-height: 1.42857143;
+}
+
+.side_nav ul li .lb1-a:hover{
+    border-left-color: #b5000a !important;
+}
+.page-link{
+    color: #b5000a !important;
+}
+.btn, .btn-default, .modal-header{
+    background: #b5000a !important;
+    background-color: #b5000a !important;
+    color: #fff !important;
+}
+/*----- Modal popup Ends ------*/
+/*profile popover css*/
+/* .headerRow .popover-arrow{
+    margin-left: 46px!important;
+} */
+.headerRow popover-container{
+    /* left: auto!important;
+    right: 2px; 
+    cursor: pointer;*/
+    right: 2px;
+}
+.module-info,.headerRow popover-container{
+    width: max-content;
+}
+.module-info hr{
+    margin: 5px 0px;
+}
+.module-info a{
+    text-decoration: none!important;
+    cursor: pointer;
+}
+/*pprofile popover ends*/
+/*sort function css*/
+mfdefaultsorter .glyphicon {
+    border: none!important;
+    color: black!important;
+}
+mfdefaultsorter a, mfdefaultsorter a:hover{
+    color: white;
+    text-decoration: none;
+    padding-left: 0;
+}
+/*sort function css ends*/
+.modal-header.modal-sm, .modal-body.modal-sm,.modal-sm{
+    width: 330px!important;
+}
+.modal-header.modal-lg, .modal-body.modal-md,.modal-md{
+    width: 900px!important;
+}
+.modal-header.modal-md, .modal-body.modal-md,.modal-md{
+    width: 600px!important;
+}
+.modal-body .row{
+    margin-bottom: 10px;
+}
+
+#myInput {
+    background-image: url(/assets/images/Search-Engine-Optimization.jpg);
+    background-position: 0% 0%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    width: 86%;
+    font-size: 16px;
+    padding: 2px 20px 4px 40px;
+    border: 1px solid #B5000A;
+    margin-bottom: -3px;
+    margin-top: 4px;
+    border-radius: 5px;    
+    margin-left: 6px;
+    outline: none;
+  }
+  tab #myInput{
+    width: 82%!important;
+    margin-bottom: 3px!important;
+  }
+  /*----------------div looks like table for shortable----------------------*/
+div.table .table-header {
+    background: grey;
+    color: white;
+}
+div.table .table-header-row .table-cell-20,
+div.table .table-body-row .table-cell-20{
+    width: 5%;
+}
+div.table .table-header-row .table-cell-15,
+div.table .table-body-row .table-cell-15{
+    width: 6.66%;
+}
+div.table .table-header-row .table-cell-12,
+div.table .table-body-row .table-cell-12{
+    width: 8.33%;
+}
+div.table .table-header-row .table-cell-10,
+div.table .table-body-row .table-cell-10{
+    width: 10%;
+}
+div.table .table-header-row .table-cell-9,
+div.table .table-body-row .table-cell-9{
+    width: 11.11%;
+}
+div.table .table-header-row .table-cell-8,
+div.table .table-body-row .table-cell-8{
+    width: 12.5%;
+}
+div.table .table-header-row .table-cell-7,
+div.table .table-body-row .table-cell-7{
+    width: 14.28%;
+}
+div.table .table-header-row .table-cell-6,
+div.table .table-body-row .table-cell-6{
+    width: 16.66%;
+}
+div.table .table-header-row .table-cell-5,
+div.table .table-body-row .table-cell-5{
+    width: 20%;
+}
+div.table .table-header-row .table-cell-4,
+div.table .table-body-row .table-cell-4{
+    width: 25%;
+}
+div.table .table-header-row .table-cell-3,
+div.table .table-body-row .table-cell-3{
+    width: 33.33%;
+}
+div.table .table-header-row .table-cell-2,
+div.table .table-body-row .table-cell-2{
+    width: 50%;
+}
+div.table .table-header-row .table-cell-1,
+div.table .table-body-row .table-cell-1{
+    width: 100%;
+}
+div.table .table-header-row .table-cell-1,
+div.table .table-header-row .table-cell-2,
+div.table .table-header-row .table-cell-3,
+div.table .table-header-row .table-cell-4,
+div.table .table-header-row .table-cell-5,
+div.table .table-header-row .table-cell-6,
+div.table .table-header-row .table-cell-7,
+div.table .table-header-row .table-cell-8,
+div.table .table-header-row .table-cell-9,
+div.table .table-header-row .table-cell-10,
+div.table .table-header-row .table-cell-11{
+    display: inline-block;
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: bottom;
+    border-bottom: 2px solid #ddd;
+    font-weight: bold;
+}
+
+div.table .table-body-row .table-cell-1,
+div.table .table-body-row .table-cell-2,
+div.table .table-body-row .table-cell-3,
+div.table .table-body-row .table-cell-4,
+div.table .table-body-row .table-cell-5,
+div.table .table-body-row .table-cell-6,
+div.table .table-body-row .table-cell-7,
+div.table .table-body-row .table-cell-8,
+div.table .table-body-row .table-cell-9,
+div.table .table-body-row .table-cell-10,
+div.table .table-body-row .table-cell-11{
+    display: inline-block;
+    padding: 8px;
+    line-height: 1.42857143;
+    vertical-align: bottom;
+}
+
+
+div.table-striped .table-body .ng-star-inserted.sortable-item:nth-of-type(odd) {
+    background-color: #f9f9f9 ;
+}
+div.table-striped .table-body .table-body-row{
+    border-top: 1px solid #ddd ;
+}
+div.table-striped .table-body .table-body-row:hover{
+    background-color: #ccc ;
+}
+div.table-striped .table-body .ng-star-inserted.sortable-item {
+   cursor: move;
+}
+/*----------------div looks like table----------------------*/
+/*----------------ck-editor-border--------------------------*/
+.cke_inner {
+    border-top: 1px solid #f5f3f3!important;
+}
+.cke_chrome{
+    margin-top: 2px!important;
+}
+/*----------------ck-editor-border ends--------------------------*/
+/*----------------Accordion profile css---------------------------*/
+.btn-link{
+    background: none!important;
+    color: #3c8dbc!important;
+    text-decoration: none!important;
+    outline: none;
+}
+.btn.active.focus, .btn.active:focus, .btn.focus, .btn:active.focus, .btn:active:focus, .btn:focus{
+    outline: none!important;
+}
+.profileContent .panel-heading{
+    padding: 2px 15px!important;
+}
+.profileContent .panel-default>.panel-heading {
+    color: #611010!important;
+    background-color: #e0e0e0!important;
+    border-color: #ddd!important;
+    box-shadow: 0px 2px 5px;
+    position: relative;
+}
+.profileContent .panel-body{
+    padding-top: 15px;
+    padding-bottom: 0px;
+}
+.profileContent ul{
+    padding: 0px;
+    list-style-type: none;
+}
+/*----------------Accordion profile css ends---------------------------*/
+/* organization chart margin top */
+.text-center{
+    padding-top: 20px;
+}
+
+.DialogRoot{
+    top: 0px;
+    position: absolute;
+    overflow: auto;
+    height: 100%;
+    width: 100%;
+    z-index: 999999;
+}
+.DialogHolders{
+    position: absolute !important;
+    top: 100px !important
+}
+/* for body scrolling  fix*/
+#sidebar-wrapper{
+    position: fixed !important;
+}
+app-root{
+    overflow: auto !important;
+}
+.header{
+    position: fixed !important;
+    width: 100% !important;
+    z-index: 999 !important;
+}
+.body_content{
+    top: 68px !important;
+    position: relative !important;
+}
+.loginForm{
+    margin-top: 0px !important;
+    padding-top: 100px !important;
+}
+/*----side nav toggle fix*/
+.toggled .drop-down.sidebar-nav{
+    width: 40px;
+}
+.toggled .drop-down.sidebar-nav li:hover{
+    width: 267px;
+}
+.toggled .drop-down.sidebar-nav li{
+    height: 40px;
+}
+.toggled .navbar ul .version_type{
+    width: 60px !important;;
+}
+
+.nav.nav-tabs .nav-item.active *{
+    color: #B5000A!important;
+    font-weight: bold!important;
+}
+.DialogBody .nav.nav-tabs{
+    box-shadow: 1px 3px 5px;
+}
+.DialogBody .nav.nav-tabs .nav-item.active{
+    box-shadow: 0px 3px#B5000A!important;
+}
+
+.customcheck .checkmark:after {
+    left: 6px!important;
+    height: 8px!important;
+}
+
+table tr td{
+    vertical-align: middle !important;
+}
+
+.row, 
+.body_section{
+    margin-right: auto !important;
+    margin-left: auto !important;
+    padding-right: 0px !important;
+    padding-left: 0px !important;
+}
+.container-fluid{
+    padding-right: 0px !important;
+}
+.form-control[readonly]{
+    background-color: #fff !important;
+    cursor: default;
+}
+.bold{
+    font-weight: bold;
+}

@@ -1,0 +1,1080 @@
+<div class="row sidebar_row">
+  <div class="col-md-4 col-xs-4 col-sm-4 info_icon">
+  </div>
+  <div class="col-md-4 col-xs-4 col-sm-4">
+    <h3 class="heading_h3">
+      Client Details
+    </h3>
+  </div>
+  <div class="col-md-4 col-xs-4 col-sm-4 add_icon">
+    <img src="assets/images/Plus_Off.png" (click)="addClick(template)" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-7"></div>
+  <div class="col-md-5">
+    <label>Search: </label> <input type="text" id="myInput"  title="Type in a name">
+  </div>
+</div>
+<div class="row">
+  <div class="table-responsive">
+    <table class="table table-striped" [mfData]="client" #mf="mfDataTable" [mfRowsOnPage]="5">
+      <thead>
+        <tr>
+          <th>Sl No</th>
+          <th>Client Name</th>
+          <th>Client ID</th>
+          <th>Email</th>
+          <th>City Name</th>
+          <th>State Name</th>
+          <th>Country Name</th>
+          <th>Version</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of mf.data; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{data.Client_Name}}</td>       
+          <td>{{data.Client_Id}}</td>   
+          <td>{{data.Email_Address}}</td> 
+          <td>{{data.City}}</td>       
+          <td>{{data.State_Name}}</td>    
+          <td>{{data.Country_Name}}</td>    
+          <td>{{data.Version}}</td> 
+          <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-eye-open" (click)="viewClient(template1,data)"></span></a></td>                        
+          <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-pencil" (click)="editClient(template,data)"></span></a></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="12">
+            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <ng-template #template>
+      <div class="modal-header modal-lg">
+          <h4 class="DialogHeading" *ngIf="!model.Id">Add Client Details</h4>
+          <h4 class="DialogHeading" *ngIf="model.Id">Edit Client Details</h4>
+      </div>
+  <aw-wizard>
+    <aw-wizard-step stepTitle="Basic Details">
+        <form [formGroup]="AddUserStep1">
+            <div class="modal-body modal-lg">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label>Customer Name*</label>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" placeholder="Customer Name" [(ngModel)]= "model.Client_Name" maxlength="100" class="form-control" formControlName="Name"/>
+                          <div class="error-alert" *ngIf="AddUserStep1.controls.Name.errors && AddUserStep1.touched">
+                            <div class="error-alert" *ngIf="AddUserStep1.controls.Name.errors.required">Customer Name is required</div> 
+                        </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-4">
+                            <label>Address*</label>
+                          </div>
+                          <div class="col-md-8">
+                            <input type="text" placeholder="Address" maxlength="100" [(ngModel)]= "model.Address" class="form-control" formControlName="Address"/>
+                            <div class="error-alert" *ngIf="AddUserStep1.controls.Address.errors && AddUserStep1.touched">
+                              <div class="error-alert" *ngIf="AddUserStep1.controls.Address.errors.required">Address is required</div> 
+                          </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Website URL</label>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" placeholder="" maxlength="100" [(ngModel)]= "model.Website" class="form-control" formControlName="url"/>
+                              <div class="error-alert" *ngIf="AddUserStep1.controls.url.errors && AddUserStep1.touched">
+                                <div *ngIf="AddUserStep1.controls.url.touched && AddUserStep1.controls.url.errors.pattern">Invalid Website address.</div>
+                                <div *ngIf="AddUserStep1.controls.url.touched && AddUserStep1.controls.url.errors.maxlength">Should not exceed 45 characters.</div>
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Country*</label>
+                            </div>
+                            <div class="col-md-8">
+                              <select class="form-control" [(ngModel)]= "model.Country_Id" formControlName="Country">
+                                <option *ngFor="let country of clientProvider.Country" value="{{country.Id}}">{{country.Country_Name}}</option>
+                              </select> 
+                                <!-- <div class="error-alert" *ngIf="AddUserStep1.controls.Country.errors && AddUserStep1.touched">
+                                  <div class="error-alert" *ngIf="AddUserStep1.controls.Country.errors.required">Country is required</div> 
+                              </div> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <label>State*</label>
+                          </div>
+                          <div class="col-md-8">
+                              <select class="form-control" formControlName="State" [(ngModel)]= "model.State_Id">
+                                  <option value="0">--Select State--</option>
+                                  <ng-container *ngFor="let state of clientProvider.State">
+                                  <option *ngIf="state.Country_Id == model.Country_Id" value="{{state.Id}}">{{state.State_Name}}</option>
+                                </ng-container>
+                                </select>  
+                                <!-- <div class="error-alert" *ngIf="AddUserStep1.controls.State.errors && AddUserStep1.touched">
+                                  <div class="error-alert" *ngIf="AddUserStep1.controls.State.errors.required">State is required</div> 
+                              </div> -->
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>City*</label>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" placeholder="" maxlength="100" [(ngModel)]= "model.City" class="form-control" formControlName="city"/>
+                              <div class="error-alert" *ngIf="AddUserStep1.controls.city.errors && AddUserStep1.touched">
+                                <div class="error-alert" *ngIf="AddUserStep1.controls.city.errors.required">City is required</div> 
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Post Code</label>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" placeholder="" maxlength="100" [(ngModel)]= "model.Zip_Code" class="form-control" formControlName="postcode"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Currency*</label>
+                            </div>
+                            <div class="col-md-8">
+                              <select class="form-control" class="form-control" [(ngModel)]="model.Currency" formControlName="Currecny">
+                                <option value="">--Select--</option>
+                                <option *ngFor="let Currency of CurrencyData" value="{{Currency.value}}">{{Currency.innertext}}</option>
+                              </select>
+                              <div class="error-alert" *ngIf="AddUserStep1.controls.Currecny.errors && AddUserStep1.touched">
+                                <div class="error-alert" *ngIf="AddUserStep1.controls.Currecny.errors.required">Currency is required</div> 
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Industry*</label>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" placeholder="" maxlength="100" [(ngModel)]= "model.Industry" class="form-control" formControlName="Industry"/>
+                              <div class="error-alert" *ngIf="AddUserStep1.controls.Industry.errors && AddUserStep1.touched">
+                                <div class="error-alert" *ngIf="AddUserStep1.controls.Industry.errors.required">Industry is required</div> 
+                            </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Primary Email*</label>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" placeholder="" maxlength="100" [(ngModel)]= "model.Email_Address" class="form-control" formControlName="primaryemail"/>
+                              <div class="error-alert" *ngIf="AddUserStep1.controls.primaryemail.errors && AddUserStep1.touched">
+                                <div class="error-alert" *ngIf="AddUserStep1.controls.primaryemail.errors.required">Email Address is required</div>
+                                <div *ngIf="AddUserStep1.controls.primaryemail.touched && AddUserStep1.controls.primaryemail.errors.email">Invalid Email address.</div>
+                                <div *ngIf="AddUserStep1.controls.primaryemail.touched && AddUserStep1.controls.primaryemail.errors.maxlength">Should not exceed 45 characters.</div> 
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Client Creation Date</label>
+                            </div>
+                            <div class="col-md-8">
+                                  <input type="text" placeholder="Client Creation Date" class="form-control"
+                                      formControlName="ClientCreationDate" [owlDateTimeTrigger]="dt0" [owlDateTime]="dt0"  [min]="today" [(ngModel)]="model.Created_Timestamp" />
+                                  <owl-date-time [pickerType]="'calendar'" #dt0></owl-date-time>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Start Date*</label>
+                            </div>
+                            <div class="col-md-8">
+                                  <input type="text" placeholder="Start Date" [(ngModel)]="model.Updated_Timestamp" class="form-control" maxlength="100"
+                                      formControlName="StartDate" [owlDateTimeTrigger]="dt7" [owlDateTime]="dt7"  [min]="today"/>
+                                  <owl-date-time [pickerType]="'calendar'" #dt7 [startAt]="model.Created_Timestamp"></owl-date-time>
+                                  <div class="error-alert" *ngIf="AddUserStep1.controls.StartDate.errors && AddUserStep1.touched">
+                                    <div class="error-alert" *ngIf="AddUserStep1.controls.StartDate.errors.required">Start Date is required</div> 
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-md-4">
+                              <label>Connectt Partner*</label>
+                            </div>
+                            <div class="col-md-8">
+                              <select class="form-control" [(ngModel)]="model.Partner_Id" formControlName="partner">
+                                <option value="0">--Select--</option>
+                                <option *ngFor="let partner of addClient.Partner" value="{{partner.Id}}">{{partner.Partner_Name}}</option>
+                              </select>
+                              <div class="error-alert" *ngIf="AddUserStep1.controls.partner.errors && AddUserStep1.touched">
+                                <div class="error-alert" *ngIf="AddUserStep1.controls.partner.touched && AddUserStep1.controls.partner.errors.pattern">Connectt Partner is required</div> 
+                            </div>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Time Zone*</label>
+                            </div>
+                            <div class="col-md-8">
+                              <select disabled class="form-control" [(ngModel)]="model.Timezone"
+                                formControlName="timezone">
+                                <option value="(GMT +05:30) Asia/Calcutta">(GMT +05:30) Asia/Calcutta</option>
+                            </select>
+                            </div>
+                        </div>
+              </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+            <button [disabled]="!AddUserStep1.valid" class="btn btn-default" type="button" awNextStep>Proceed</button>
+            <!-- <button  type="button" class="btn btn-default" (click)="callSubmit()">Save and Continue</button> -->
+            <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+        </div>
+    </aw-wizard-step>
+    <aw-wizard-step stepTitle="admindetails">
+      <form [formGroup]="AddUserStep2">
+        <div class="modal-body modal-lg">
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4">
+                      <label>Server Path*</label>
+                    </div>
+                    <div class="col-md-8">
+                      <select class="form-control" [(ngModel)]="model.Server_Path" formControlName="ServerPath">
+                        <option value="0">--Select--</option>
+                        <option *ngFor="let server of addClient.Server" value="{{server.Id}}">{{server.Server_Name}}</option>
+                      </select>
+                      <div class="error-alert" *ngIf="AddUserStep2.controls.ServerPath.errors && AddUserStep2.touched">
+                        <div class="error-alert" *ngIf="AddUserStep2.controls.ServerPath.touched && AddUserStep2.controls.ServerPath.errors.pattern">Server Path is required</div> 
+                    </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                      <div class="col-md-4">
+                        <label>Name*</label>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" placeholder="Name" [(ngModel)]="clientAdmin.Admin_Name" maxlength="100" class="form-control" formControlName="AdminName"/>
+                        <div class="error-alert" *ngIf="AddUserStep2.controls.AdminName.errors && AddUserStep2.touched">
+                          <div class="error-alert" *ngIf="AddUserStep2.controls.AdminName.errors.required">Admin Name is required</div> 
+                      </div>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label>Designation*</label>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" placeholder="Designation" [(ngModel)]="clientAdmin.Designation" maxlength="100" class="form-control" formControlName="Designation"/>
+                          <div class="error-alert" *ngIf="AddUserStep2.controls.Designation.errors && AddUserStep2.touched">
+                            <div class="error-alert" *ngIf="AddUserStep2.controls.Designation.errors.required">Designation is required</div> 
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                            <label>Mobile Number*</label>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" placeholder="Mobile Number" [(ngModel)]="clientAdmin.Contact_Number" maxlength="100" class="form-control" formControlName="MobileNumber"/>
+                          <div class="error-alert" *ngIf="AddUserStep2.controls.MobileNumber.errors && AddUserStep2.touched">
+                            <div class="error-alert" *ngIf="AddUserStep2.controls.MobileNumber.errors.required">Mobile Number is required</div> 
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-md-4">
+                        <label>Alternative Number</label>
+                      </div>
+                      <div class="col-md-8">
+                        <input type="text" placeholder="Alternative Number" [(ngModel)]="clientAdmin.Admin_Alternate_Contact_Number" maxlength="100" class="form-control" formControlName="AlternativeNumber"/>
+                      </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label>Email*</label>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="email" placeholder="Email" [(ngModel)]="clientAdmin.Admin_Email_Address" maxlength="100" class="form-control" formControlName="Email"/>
+                          <div class="error-alert" *ngIf="AddUserStep2.controls.Email.errors && AddUserStep2.touched">
+                            <div class="error-alert" *ngIf="AddUserStep2.controls.Email.errors.required">Email is required</div> 
+                            <div *ngIf="AddUserStep2.controls.Email.touched && AddUserStep2.controls.Email.errors.email">Invalid Email address.</div>
+                            <div *ngIf="AddUserStep2.controls.Email.touched && AddUserStep2.controls.Email.errors.maxlength">Should not exceed 45 characters.</div>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label>Alternative Email</label>
+                        </div>
+                        <div class="col-md-8">
+                          <input type="text" placeholder="Alternative Email" [(ngModel)]="clientAdmin.Admin_Alternate_Email_Address" maxlength="100" class="form-control" formControlName="AlternativeEmail"/>
+                        </div>
+                    </div>
+          </div>
+      </div>
+    </form>
+    <div class="modal-footer">
+        <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+        <button [disabled]="!AddUserStep2.valid" class="btn btn-default" type="button" awNextStep>Proceed</button>
+        <!-- <button  type="button" class="btn btn-default" (click)="callSubmit()">Save and Continue</button> -->
+        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+    </div>
+    </aw-wizard-step>
+    <aw-wizard-step stepTitle="Product Information">
+        <form [formGroup]="AddUserStep3">
+            <div class="modal-body modal-lg">
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-4">
+                          <label>Product*</label>
+                        </div>
+                        <div class="col-md-8">
+                            <select class="form-control" [(ngModel)]="clientProduct.Product_Id" formControlName="Product">
+                                <option value="0">--Select--</option>
+                                <option *ngFor="let products of model.Product" value="{{products.Id}}">{{products.Product_Name}}</option>
+                            </select>
+                            <div class="error-alert" *ngIf="AddUserStep3.controls.Product.errors && AddUserStep3.touched">
+                              <div class="error-alert" *ngIf="AddUserStep3.controls.Product.touched && AddUserStep3.controls.Product.errors.pattern">Product Name is required</div> 
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row">
+                          <div class="col-md-4">
+                            <label>Variant*</label>
+                          </div>
+                          <div class="col-md-8">
+                              <select class="form-control" [(ngModel)]="clientProduct.Varient_Id" formControlName="Varient">
+                                  <option value="0">--Select--</option>
+                                  <ng-container *ngFor="let varients of model.ProductVarient">
+                                    <option *ngIf="varients.Product_Id == clientProduct.Product_Id" value="{{varients.Id}}">{{varients.Variant_Name}}</option>
+                                  </ng-container>
+                              </select>
+                              <div class="error-alert" *ngIf="AddUserStep3.controls.Varient.errors && AddUserStep3.touched">
+                                <div class="error-alert" *ngIf="AddUserStep3.controls.Varient.touched && AddUserStep3.controls.Varient.errors.pattern">Variant is required</div> 
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Subscription*</label>
+                            </div>
+                            <div class="col-md-8">
+                                <select class="form-control" [(ngModel)]="clientProduct.Subscription_Count" formControlName="Subscription">
+                                    <option value="0">--Select--</option>
+                                    <option value="1">{{'LifeTime'}} </option>
+                                    <option value="2">{{'Annual'}} </option>
+                                    <option value="3">{{' 2 Years'}} </option>
+                                    <option value="4">{{'3 Years'}} </option>
+                                    <option value="5">{{'4 Years'}} </option>
+                                    <option value="6">{{'5 Years'}} </option>
+                                  </select>
+                                  <div class="error-alert" *ngIf="AddUserStep3.controls.Subscription.errors && AddUserStep3.touched">
+                                    <div class="error-alert" *ngIf="AddUserStep3.controls.Subscription.touched && AddUserStep3.controls.Subscription.errors.pattern">Subscription is required</div> 
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                                <label>Licenses*</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" placeholder="" [(ngModel)]="clientProduct.Licenses" maxlength="100" class="form-control" formControlName="Licenses"/>
+                                <div class="error-alert" *ngIf="AddUserStep3.controls.Licenses.errors && AddUserStep3.touched">
+                                  <div class="error-alert" *ngIf="AddUserStep3.controls.Licenses.errors.required">Licenses is required</div> 
+                              </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-md-4">
+                            <label>Pricing</label>
+                          </div>
+                          <div class="col-md-8">
+                              <input type="text" placeholder="" maxlength="100" class="form-control" formControlName="Pricing"/>
+                          </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-md-6" style="text-align: right">
+                              <input type="radio" [(ngModel)]="model.Discount_Type" [checked]="true" value="Value"  formControlName="Discount_Type"/>
+                              <label>Value</label>
+                            </div>
+                            <div class="col-md-6">
+                              <input type="radio" [(ngModel)]="model.Discount_Type" value="Percentage" formControlName="Discount_Type"/>
+                              <label>Percentage</label>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-4" >
+                              <label>Discount</label>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" placeholder="Enter the value" maxlength="100" class="form-control" formControlName="Discount"/>
+                            </div>
+                          <!-- <div class="col-md-8" *ngIf="model.Discount_Type == 'Percentage'">
+                            <input type="text" placeholder="Enter the value in %" [(ngModel)]="clientProduct.Discount_In_Percentage" maxlength="100" class="form-control" formControlName="Discount"/>
+                          </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Total Discount</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" placeholder="" [(ngModel)]="clientProduct.Discount_In_Amount" maxlength="100" class="form-control" formControlName="TotalDiscount"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Net Billable</label>
+                            </div>
+                            <div class="col-md-8">
+                              <input type="text" placeholder="" [(ngModel)]="clientProduct.Net_Amount" maxlength="100" class="form-control" formControlName="NetBillable"/>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Billing Start Date</label>
+                            </div>
+                            <div class="col-md-8">
+                              <!-- <input type="date" placeholder="" [(ngModel)]="clientProduct.Discount_Extended_Date" maxlength="100" class="form-control" formControlName="BillingStartDate"/> -->
+                              <input class="form-control" type="date" placeholder=""  [(ngModel)]="clientProduct.Discount_Extended_Date" formControlName="BillingStartDate"/>
+                              <!-- <owl-date-time [pickerType]="'calendar'" #dt5></owl-date-time> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Discount End Date</label>
+                            </div>
+                            <div class="col-md-8">
+                              <input class="form-control" type="date" placeholder=""  [(ngModel)]="clientProduct.Discount_End_Date" formControlName="DiscountEndDate"/>
+                              <!-- <owl-date-time [pickerType]="'calendar'" #dt6></owl-date-time> -->
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Payment Schedule*</label>
+                            </div>
+                            <div class="col-md-8">
+                              <select class="form-control" [(ngModel)]="clientProduct.Payment_Schedule" formControlName="PaymentSchedule">
+                                <option value="0">--Select--</option>
+                                <option value="Free For Life">{{'Free For Life'}} </option>
+                                <option value="Quarterly">{{'Quarterly'}} </option>
+                                <option value="Half Yearly">{{'Half Yearly'}} </option>
+                                <option value="Annualy">{{'Annualy'}} </option>
+                                <option value="Lumpsum">{{'Lumpsum'}} </option>
+                              </select>
+                              <div class="error-alert" *ngIf="AddUserStep3.controls.PaymentSchedule.errors && AddUserStep3.touched">
+                                <div class="error-alert" *ngIf="AddUserStep3.controls.PaymentSchedule.touched && AddUserStep3.controls.PaymentSchedule.errors.pattern">Payment Schedule is required</div> 
+                            </div>
+                            </div>
+                        </div>
+                        <!-- <div class="row">
+                            <div class="col-md-4">
+                              <label>Tenure Extend Date</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" placeholder="" maxlength="100" class="form-control" formControlName="TenureExtendDate"/>
+                            </div>
+                        </div> -->
+                        <div class="row">
+                            <div class="col-md-4">
+                              <label>Tenure End Date</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" readonly placeholder="" [(ngModel)]="clientProduct.Tenure_End_Date" maxlength="100" class="form-control" formControlName="TenureEndDate"/>
+                            </div>
+                        </div>
+              </div>
+          </div>
+        </form>
+        <div class="modal-footer">
+            <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+            <button [disabled]="!AddUserStep3.valid" class="btn btn-default" type="button" awNextStep>Proceed</button>
+            <!-- <button  type="button" class="btn btn-default" (click)="callSubmit()">Save and Continue</button> -->
+            <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+        </div>
+    </aw-wizard-step>
+    <aw-wizard-step stepTitle="Billing Contact Person Deatils">
+        <form [formGroup]="AddUserStep4">
+            <div class="modal-body modal-lg">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Name*</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text"  maxlength="100" [(ngModel)]="clientInventory.Billing_Person_Name"  class="form-control" formControlName="ContactPersonName"/>
+                      <div class="error-alert" *ngIf="AddUserStep4.controls.ContactPersonName.errors && AddUserStep4.touched">
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.ContactPersonName.errors.required">Billing Contact Person Name is required</div> 
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Designation*</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" maxlength="100" [(ngModel)]="clientInventory.Client_Designation"  class="form-control" formControlName="InventoryDesignation"/>
+                      <div class="error-alert" *ngIf="AddUserStep4.controls.InventoryDesignation.errors && AddUserStep4.touched">
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.InventoryDesignation.errors.required">Designation is required</div> 
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Mobile Number*</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" maxlength="100" [(ngModel)]="clientInventory.Client_Mobile_Number"  class="form-control" formControlName="Inventorymobilenumber"/>
+                      <div class="error-alert" *ngIf="AddUserStep4.controls.Inventorymobilenumber.errors && AddUserStep4.touched">
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.Inventorymobilenumber.errors.required">Mobile Number is required</div> 
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Alternative Number</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" maxlength="100" [(ngModel)]="clientInventory.Client_Alternate_Number"  class="form-control" formControlName="alternativenumber"/> 
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Email Address*</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="email" maxlength="100" [(ngModel)]="clientInventory.Client_Email_Address"  class="form-control" formControlName="emailaddress"/>
+                      <div class="error-alert" *ngIf="AddUserStep4.controls.emailaddress.errors && AddUserStep4.touched">
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.emailaddress.errors.required">Email Address is required</div>
+                        <div *ngIf="AddUserStep4.controls.emailaddress.touched && AddUserStep4.controls.emailaddress.errors.email">Invalid Email address.</div>
+                        <div *ngIf="AddUserStep4.controls.emailaddress.touched && AddUserStep4.controls.emailaddress.errors.maxlength">Should not exceed 45 characters.</div> 
+                    </div>
+                  </div>                   
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+                    <button [disabled]="!AddUserStep4.valid" class="btn btn-default" type="button" awNextStep>Proceed</button>
+                    <!-- <button  type="button" class="btn btn-default" (click)="callSubmit()">Save and Continue</button> -->
+                    <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+                </div>
+              </div>
+        </form>
+    </aw-wizard-step>
+    <aw-wizard-step stepTitle="Auto-Debit Card Information">
+        <form [formGroup]="AddUserStep5">
+            <div class="modal-body modal-lg">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Name</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" placeholder="Name as an Card" [(ngModel)]="clientInventory.Card_Holder_Name"  maxlength="100"  class="form-control" formControlName="HolderName"/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Card Type</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" maxlength="100" [(ngModel)]="clientInventory.Card_Type"  class="form-control" formControlName="CardType"/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Card Number</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" maxlength="100" [(ngModel)]="clientInventory.Card_Number"  class="form-control" formControlName="CardNumber"/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Card Expiry Date</label>
+                  </div>
+                  <div class="col-md-4">
+                      <input type="text" placeholder="Enter Month" [(ngModel)]="clientInventory.Expiry_Month" maxlength="100"  class="form-control" formControlName="Month"/> 
+                  </div>
+                  <div class="col-md-4">
+                      <input type="text" placeholder="Enter Year" [(ngModel)]="clientInventory.Expiry_Year" maxlength="100"  class="form-control" formControlName="Year"/> 
+                  </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+                    <button  class="btn btn-default" type="button" awNextStep>Proceed</button>
+                    <!-- <button  type="button" class="btn btn-default" (click)="callSubmit()">Save and Continue</button> -->
+                    <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+                </div>
+              </div>
+        </form>
+    </aw-wizard-step>
+    <aw-wizard-step stepTitle="Banking Deatils">
+        <form [formGroup]="AddUserStep6">
+            <div class="modal-body modal-lg">
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Bank</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text"  maxlength="100" [(ngModel)]="clientInventory.Bank_Name"  class="form-control" formControlName="BankName"/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Branch Address</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" maxlength="100" [(ngModel)]="clientInventory.Branch_Address"  class="form-control" formControlName="branchaddress"/>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Country</label>
+                  </div>
+                  <div class="col-md-8">
+                      <select class="form-control" [(ngModel)]= "clientInventory.Client_Country" formControlName="Inventorycountry" >
+                        <option *ngFor="let country of clientProvider.Country" value="{{country.Id}}">{{country.Country_Name}}</option>
+                        </select> 
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>Account Number</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" maxlength="100" [(ngModel)]="clientInventory.Account_Number"  class="form-control" formControlName="accountenumber"/> 
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-4">
+                    <label>IFSC Code</label>
+                  </div>
+                  <div class="col-md-8">
+                      <input type="text" maxlength="100" [(ngModel)]="clientInventory.Ifsc_Code"  class="form-control" formControlName="ifsccode"/>
+                  </div>                   
+                </div>
+                <div class="row">
+                    <div class="col-md-4">
+                      <label>Swift Code</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="clientInventory.Swift_Code"  class="form-control" formControlName="swiftcode"/>
+                    </div>                   
+                  </div>
+                <div class="modal-footer">
+                      <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+                      <button  type="button" class="btn btn-default" (click)="callSubmit()" awNextStep>Save</button>
+                      <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+                </div>
+              </div>
+        </form>
+    </aw-wizard-step>
+  </aw-wizard>
+  </ng-template>
+
+  <ng-template #template1>
+    <div class="modal-header modal-lg">
+        <h4 class="DialogHeading">Customer Primary Info</h4>
+    </div>
+    <div class="modal-body profileContent modal-lg">
+      <accordion>
+          <accordion-group heading="Customer Primary Info">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Name</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Client_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Address</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Address}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Website URL</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Website}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Country</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Country_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>State</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.State_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>City</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{model.City}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Post Code</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{model.Zip_Code}}</label>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-4">
+                    <label><b>Currency</b></label>
+                  </div>
+                  <div class="col-md-4">
+                      <label>{{model.Currency}}</label>
+                  </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Industry</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{model.Industry}}</label>
+                </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label><b>Primary Email</b></label>
+              </div>
+              <div class="col-md-4">
+                  <label>{{model.Email_Address}}</label>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label><b>Client Creation Date</b></label>
+            </div>
+            <div class="col-md-4">
+                <label>{{model.Updated_Timestamp}}</label>
+            </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label><b>Start Date</b></label>
+          </div>
+          <div class="col-md-4">
+              <label>{{model.Created_Timestamp}}</label>
+          </div>
+      </div>
+      <!-- <div class="row">
+        <div class="col-md-4">
+          <label><b>Connect Partner</b></label>
+        </div>
+        <div class="col-md-4">
+            <label>{{model.Partner_Name}}</label>
+        </div>
+      </div> -->
+    <div class="row">
+      <div class="col-md-4">
+        <label><b>Time Zone</b></label>
+      </div>
+      <div class="col-md-4">
+          <label>{{model.Timezone}}</label>
+      </div>
+    </div>
+          </accordion-group>
+          <accordion-group heading="Admin Information">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Server Path</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Server_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Name</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientAdmin.Admin_Name}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Designation</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientAdmin.Designation}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Mobile Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientAdmin.Contact_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Alternative Number</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientAdmin.Admin_Alternate_Contact_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Email</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientAdmin.Admin_Email_Address}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Alternative Email</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientAdmin.Admin_Alternate_Email_Address}}</label>
+                </div>
+              </div>
+          </accordion-group>
+          <accordion-group heading="Product Information">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Product</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientProduct.Product_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Variant</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientProduct.Variant_Name}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Subscription</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientProduct.Subscription_Count}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Licenses</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientProduct.Licenses}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Pricing</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientProduct.Pricing}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Net Billable</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientProduct.Net_Amount}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Billing Start Date</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientProduct.Discount_Extended_Date | date:'MMM d, y'}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Payment Schedule</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientProduct.Payment_Schedule}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Tenure End Date</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientProduct.Tenure_End_Date}}</label>
+                </div>
+              </div>
+          </accordion-group>
+          <accordion-group heading="Billing Contact Person Details">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Name</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientInventory.Billing_Person_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Designation</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientInventory.Client_Designation}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Mobile Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientInventory.Client_Mobile_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Alternative Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientInventory.Client_Alternate_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Email</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientInventory.Client_Email_Address}}</label>
+                </div>
+              </div>
+              <!-- <div class="row">
+                <div class="col-md-4">
+                  <label><b>Alternative Email</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label></label>
+                </div>
+              </div> -->
+          </accordion-group>
+          <accordion-group heading="Auto-Debit Card Information">
+            <div class="row">
+              <div class="col-md-4">
+                <label><b>Name</b></label>
+              </div>
+              <div class="col-md-4">
+                <label>{{clientInventory.Card_Holder_Name}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label><b>Card Type</b></label>
+              </div>
+              <div class="col-md-4">
+                <label>{{clientInventory.Card_Type}}</label> 
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label><b>Card Number</b></label>
+              </div>
+              <div class="col-md-4">
+                <label>{{clientInventory.Card_Number}}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-4">
+                <label><b>Card Expiry Date</b></label>
+              </div>
+              <div class="col-md-3">
+                <label>{{clientInventory.Expiry_Month}}</label>
+              </div>
+              <div class="col-md-3">
+                <label>{{clientInventory.Expiry_Year}}</label>
+              </div>
+            </div>
+        </accordion-group>
+          <accordion-group heading="Banking Details">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Bank</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientInventory.Bank_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Branch Address</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientInventory.Branch_Address}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Country</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientInventory.Country_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Account Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{clientInventory.Account_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>IFSC Code</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientInventory.Ifsc_Code}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Swift Code</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{clientInventory.Swift_Code}}</label>
+                </div>
+              </div>
+          </accordion-group>
+      </accordion>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+      </div>
+  </ng-template>
+</div>

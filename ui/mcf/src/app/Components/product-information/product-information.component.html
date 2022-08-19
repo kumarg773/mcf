@@ -1,0 +1,102 @@
+<div class="row sidebar_row">
+  <div class="col-md-4 col-xs-4 col-sm-4 info_icon">
+  </div>
+  <div class="col-md-4 col-xs-4 col-sm-4">
+    <h3 class="heading_h3">
+      Products
+    </h3>
+  </div>
+  <div class="col-md-4 col-xs-4 col-sm-4 add_icon">
+    <img src="assets/images/Plus_Off.png" (click)="addClick(template)" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-7"></div>
+  <div class="col-md-5">
+    <label>Search: </label> <input type="text" id="myInput" title="Type in a name">
+  </div>
+</div>
+<div class="row">
+  <div class="table-responsive">
+    <table class="table table-striped" [mfData]="product" #mf="mfDataTable" [mfRowsOnPage]="10">
+      <thead>
+        <tr>
+          <th>Sl No</th>
+          <th>
+            <mfDefaultSorter by="Product_Name">Product Name</mfDefaultSorter>
+          </th>
+          <th>
+            <mfDefaultSorter by="Sku_Code">SKU Code</mfDefaultSorter>
+          </th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of mf.data; let i = index">
+          <td>{{(mf.activePage - 1) * mf.rowsOnPage + i + 1 }}</td>
+          <td>{{data.Product_Name}}</td>
+          <td>{{data.Sku_Code}}</td>
+          <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-pencil" (click)="editProduct(template,data)"></span></a>
+          </td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="12">
+            <mfBootstrapPaginator [rowsOnPageSet]="[10,20,50]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="DialogHeading" *ngIf="!model.Id">Add Products</h4>
+      <h4 class="DialogHeading" *ngIf="model.Id">Edit Products</h4>
+    </div>
+    <div class="modal-body modal-md">
+      <form class="form-horizontal" id="add-form" [formGroup]="addNewForm" (ngSubmit)="onFormSubmit()">
+        <div class="row">
+          <div class="col-md-4">
+            <label>Name*</label>
+          </div>
+          <div class="col-md-8">
+          <input type="text" placeholder="Product Name"
+           [(ngModel)]= "model.Product_Name" 
+           maxlength="100" 
+           class="form-control" formControlName="Name"
+           [ngClass]="{ 'is-invalid': f.Name.touched && f.Name.errors }" 
+          />
+          <div *ngIf="f.Name.touched && f.Name.errors" class="invalid-feedback">
+            <div class="error-alert" *ngIf="f.Name.errors.required">Product Name is required</div>
+            <div class="error-alert" *ngIf="f.Name.errors.pattern">No special characters allowed (except &, _,-,.)</div>
+            <div class="error-alert" *ngIf="f.Name.errors.maxlength">Should not exceed 100 character</div>
+          </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-4">
+            <label>SKU Code*</label>
+          </div>
+          <div class="col-md-8">
+            <input type="text" placeholder="SKU Code"
+            maxlength="100" [(ngModel)]="model.Sku_Code" 
+            class="form-control"
+            formControlName="SKUCode" 
+            [ngClass]="{ 'is-invalid': f.SKUCode.touched && f.SKUCode.errors }"
+            />
+            <div *ngIf="f.SKUCode.touched && f.SKUCode.errors" class="invalid-feedback">
+              <div class="error-alert" *ngIf="f.SKUCode.errors.required">SKU Code is required</div>
+              <div class="error-alert" *ngIf="f.SKUCode.errors.maxlength">Should not exceed 100 character</div>
+            </div>
+          </div>
+        </div>
+      <div class="modal-footer">
+        <button [disabled] = "!addNewForm.valid" *ngIf="!model.Id" type="submit" class="btn btn-default">Add</button>
+        <button [disabled] = "!addNewForm.valid" *ngIf="model.Id" type="submit" class="btn btn-default">Save</button>
+        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+      </div>
+    </form>
+    </div>
+  </ng-template>
+</div>

@@ -1,0 +1,139 @@
+<div class="row sidebar_row">
+  <div class="col-md-4 col-xs-4 col-sm-4 info_icon">
+  </div>
+  <div class="col-md-4 col-xs-4 col-sm-4">
+    <h3 class="heading_h3">
+      Database Details
+    </h3>
+  </div>
+  <div class="col-md-4 col-xs-4 col-sm-4 add_icon">
+    <img src="assets/images/Plus_Off.png" (click)="addClick(template)" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-7"></div>
+  <div class="col-md-5">
+    <label>Search: </label> <input type="text" id="myInput"  title="Type in a name">
+  </div>
+</div>
+<div class="row">
+  <div class="table-responsive">
+      <table class="table table-striped" [mfData]="DatabaseDetails" #mf="mfDataTable" [mfRowsOnPage]="5">
+      <thead>
+        <tr>
+          <th>Sl No</th>
+          <th>Database Name</th>
+          <th>Database Host</th>
+          <th>User Name</th>
+          <th>Password</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of mf.data; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{data.Instance_Name}}</td>       
+          <td>{{data.Database_Host}}</td>   
+          <td>{{data.Login_Id}}</td> 
+          <td>{{data.Password}}</td>       
+          <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-pencil" (click)="editDatabase(template,data)"></span></a></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="12">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <ng-template #template>
+      <div class="modal-header">
+          <h4 class="DialogHeading" *ngIf="!model.Id">Add Database Details</h4>
+          <h4 class="DialogHeading" *ngIf="model.Id">Edit Database Details</h4>
+      </div>
+      <div class="modal-body modal-md">
+      <form class="form-horizontal" id="add-form" [formGroup]="addNewForm" (ngSubmit)="onFormSubmit()">
+        <div class="row" *ngIf="!model.Id">
+            <div class="col-md-4">
+              <label>Server Path*</label>
+            </div>
+            <div class="col-md-8">
+                <select class="form-control" [(ngModel)]="model.Path_Id" formControlName="Path_Id">                  
+                    <option value="0">--Select--</option>
+                      <option *ngFor="let Path of ServerPath" value="{{Path.Id}}">{{Path.Server_Name}}</option>
+                </select>
+                <div class="error-alert" *ngIf="addNewForm.controls.Path_Id.errors && addNewForm.touched">
+                  <div class="error-alert" *ngIf="addNewForm.controls.Path_Id.touched && addNewForm.controls.Path_Id.errors.pattern">Payment Schedule is required</div> 
+              </div>
+            </div>
+          </div>
+          <div class="row" *ngIf="model.Id">
+              <div class="col-md-4">
+                <label>Server Path*</label>
+              </div>
+              <div class="col-md-8" >
+                  <select class="form-control" disabled [(ngModel)]="model.Path_Id" formControlName="Path_Id">                  
+                      <option value="0">--Select--</option>
+                      <option *ngFor="let Path of ServerPath" value="{{Path.Id}}">{{Path.Server_Name}}</option>
+                        <!-- <p>{{Path.Server_Name}}</p> -->
+                  </select>
+                  <div class="error-alert" *ngIf="addNewForm.controls.Path_Id.errors && addNewForm.touched">
+                    <div class="error-alert" *ngIf="addNewForm.controls.Path_Id.touched && addNewForm.controls.Path_Id.errors.pattern">Payment Schedule is required</div> 
+                </div>
+              </div>
+            </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label>Database Name*</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" placeholder="Server Name" [(ngModel)]="model.Instance_Name" maxlength="100" class="form-control" formControlName="Database_Name"/>
+                <div class="error-alert" *ngIf="addNewForm.controls.Database_Name.errors && addNewForm.touched">
+                    <div class="error-alert" *ngIf="addNewForm.controls.Database_Name.touched && addNewForm.controls.Database_Name.errors.required">Database Name is required</div>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label>Database Host*</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" placeholder="Server Host" [(ngModel)]="model.Database_Host" maxlength="100" class="form-control" formControlName="Database_Host"/>
+                <div class="error-alert" *ngIf="addNewForm.controls.Database_Host.errors && addNewForm.touched">
+                    <div class="error-alert" *ngIf="addNewForm.controls.Database_Host.touched && addNewForm.controls.Database_Host.errors.required">Database Host is required</div>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label>User Name*</label>
+            </div>
+            <div class="col-md-8">
+                <input type="text" placeholder="User Name" [(ngModel)]="model.Login_Id" maxlength="100" class="form-control" formControlName="User_Name"/>
+                <div class="error-alert" *ngIf="addNewForm.controls.User_Name.errors && addNewForm.touched">
+                    <div class="error-alert" *ngIf="addNewForm.controls.User_Name.touched && addNewForm.controls.User_Name.errors.required">User Name is required</div>
+                </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4">
+              <label>Password*</label>
+            </div>
+            <div class="col-md-8">
+              <input type="text" placeholder="Password" [(ngModel)]="model.Password" maxlength="100" class="form-control" formControlName="Password"/>
+              <div class="error-alert" *ngIf="addNewForm.controls.Password.errors && addNewForm.touched">
+                  <div class="error-alert" *ngIf="addNewForm.controls.Password.touched && addNewForm.controls.Password.errors.required">Password is required</div>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer">
+              <button  type="submit" [disabled]="!addNewForm.valid" *ngIf="!model.Id" class="btn btn-default">Add</button>
+            <button  type="submit" [disabled]="!addNewForm.valid" *ngIf="model.Id" class="btn btn-default">Save</button>
+            <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+          </div>
+        </form>
+        </div>
+    </ng-template>
+</div>

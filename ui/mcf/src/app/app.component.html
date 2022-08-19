@@ -1,0 +1,84 @@
+<!--The content below is only a placeholder and can be replaced.-->
+<div *ngIf="loginState">
+    <div id="wrapper" [ngClass]="ref.click === true? 'toggled' :''">
+        <div class="overlay" [ngStyle]="{disply:ref.click === true? 'block' :'none'}"></div>
+
+        <!-- Sidebar -->
+        <nav class="navbar navbar-inverse navbar-fixed-top" id="sidebar-wrapper" role="navigation">
+            <ul class="drop-down nav sidebar-nav">
+                <div class="version_type">MCF</div>
+                <ng-container *ngFor="let link of data">
+                    <li class="dropdown" (click)="change($event, link.name)" *ngIf="link.show">
+                        <a class="lb1-a" *ngIf="link.children.length == 0" routerLink="{{link.link}}">
+                            <i class="fa {{link.font}} lb1-i"></i> <span>{{link.name}}</span>
+                        </a>
+                        <a *ngIf="link.children.length > 0">
+                            <i class="fa {{link.font}} lb1-i"></i>
+                            <span>{{link.name}} </span><i class="fa {{link.subfont}} font-down"></i>
+                        </a>
+                        <ul *ngIf="link.children.length > 0" class="dropdown-menu" id="{{link.name}}">
+                            <ng-container *ngFor="let child of link.children">
+                                <li class="lbl-sub" class="drop" (click)="change1($event,child.name)"
+                                    *ngIf="child.show">
+                                    <a routerLink="{{child.link}}">
+                                        <i class="fa {{child.font}}"></i> {{child.name}}
+                                    </a>
+                                </li>
+                            </ng-container>
+                        </ul>
+                    </li>
+                </ng-container>
+            </ul>
+        </nav>
+        <!-- /#sidebar-wrapper -->
+
+        <!-- Page Content -->
+        <div id="page-content-wrapper">
+            <span id="togglebtn">
+                <button appSidebar #ref="appSidebar" type="button" class="hamburger is-closed" data-toggle="offcanvas">
+                    <span class="hamb-top"></span>
+                    <span class="hamb-middle"></span>
+                    <span class="hamb-bottom"></span>
+                </button>
+            </span>
+            <div class="row header">
+                <div class="col-md-12 headerRow">
+                    <img src="assets/White Logo.png" class="large_logo" *ngIf="ref.click === false" />
+                    <img src="assets/White L.png" class="lc-logo-mini" *ngIf="ref.click === true" />
+                    <ul class="user_edit">
+                        <li>
+                            <label class="accessLabel">
+                                <span style="color: white;">Admin</span>
+                                <br />
+                                <span class="module_name">MCF</span>
+                            </label>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="container-fluid">
+                <div class="row body_content">
+                    <div class="pull-right col-md-10" style="padding-right: 0px; width: 84.2%;">
+                        <router-outlet></router-outlet>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- /#page-content-wrapper -->
+
+    </div>
+    <!-- /#wrapper -->
+
+</div>
+<div class='login-section' *ngIf="!loginState">
+    <div class="header">
+        <span id="headerlogo">
+            <img src="assets/images/logoSemi.png" alt="Logo">
+        </span>
+    </div>
+
+    <div class="loginForm">
+        <router-outlet></router-outlet>
+    </div>
+
+</div>

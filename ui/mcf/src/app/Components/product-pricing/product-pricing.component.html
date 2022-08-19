@@ -1,0 +1,149 @@
+
+<div class="row sidebar_row">
+  <div class="col-md-4 col-xs-4 col-sm-4 info_icon">
+  </div>
+  <div class="col-md-4 col-xs-4 col-sm-4">
+    <h3 class="heading_h3">
+      Product Pricing
+    </h3>
+  </div>
+  <div class="col-md-4 col-xs-4 col-sm-4 add_icon">
+    <img src="assets/images/Plus_Off.png" (click)="addClick(template)" />
+  </div>
+</div>
+<div class="row">
+  <div class="col-md-7"></div>
+  <div class="col-md-5">
+    <label>Search: </label> <input type="text" id="myInput"  title="Type in a name">
+  </div>
+</div>
+<div class="row">
+  <div class="table-responsive">
+    <table class="table table-striped" [mfData]="productPricing" #mf="mfDataTable" [mfRowsOnPage]="5">
+      <thead>
+        <tr>
+          <th>Sl No</th>
+          <th>Product Name</th>
+          <th>Variant Name</th>
+          <th>Currency Name</th>
+          <th>Price</th>
+          <th>Period</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of mf.data; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{data.Product_Name}}</td>       
+          <td>{{data.Variant_Name}}</td>   
+          <td>{{data.Currency_Name}}</td> 
+          <td>{{data.Amount}}</td>       
+          <td>{{data.Tenure}}</td>                       
+          <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-pencil" (click)="editPricing(template,data)"></span></a></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="12">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+   <ng-template #template>
+    <div class="modal-header">
+      <h4 class="DialogHeading" *ngIf="!model.Id">Add Product Variant</h4>
+      <h4 class="DialogHeading" *ngIf="model.Id">Edit Product Variant</h4>
+    </div>
+    <div class="modal-body modal-md">
+    <form class="form-horizontal" id="add-form" [formGroup]="addNewForm" (ngSubmit)="onFormSubmit()">
+      <div class="row">
+        <div class="col-md-4">
+          <label>Product*</label>
+        </div>
+        <div class="col-md-8">
+          <select class="form-control" [(ngModel)]="model.Product_Id" formControlName="Product">
+            <option value="0">--Select--</option>
+            <option *ngFor="let products of addProductPricing.Product" value="{{products.Id}}">{{products.Product_Name}}</option>
+          </select>
+          <div class="error-alert" *ngIf="addNewForm.controls.Product.errors && addNewForm.touched">
+            <div *ngIf="addNewForm.controls.Product.touched && addNewForm.controls.Product.errors.pattern">
+              Select Product Name.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label>Variant*</label>
+        </div>
+        <div class="col-md-8">
+          <select class="form-control" [(ngModel)]="model.Variant_Id" formControlName="Varient">
+            <option value="0">--Select--</option>
+            <ng-container *ngFor="let variants of addProductPricing.Varient">
+              <option value="{{variants.Id}}">{{variants.Variant_Name}}</option>
+            </ng-container>
+          </select>
+          <div class="error-alert" *ngIf="addNewForm.controls.Varient.errors && addNewForm.touched">
+            <div *ngIf="addNewForm.controls.Varient.touched && addNewForm.controls.Varient.errors.pattern">
+              Select Varient Name.
+            </div>
+        </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label>Currency*</label>
+        </div>
+        <div class="col-md-8">
+          <select class="form-control" [(ngModel)]="model.Currency_Id" formControlName="Currency">
+            <option value="0">--Select--</option>
+            <option *ngFor="let Currencies of addProductPricing.Currency" value="{{Currencies.Id}}">{{Currencies.Currency_Name}}</option>
+          </select>
+          <div class="error-alert" *ngIf="addNewForm.controls.Currency.errors && addNewForm.touched">
+            <div *ngIf="addNewForm.controls.Currency.touched && addNewForm.controls.Currency.errors.pattern">
+              Select Currency Name.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label>Price*</label>
+        </div>
+        <div class="col-md-8">
+          <input type="text" placeholder="Price" maxlength="100" [(ngModel)]= "model.Amount" class="form-control" formControlName="Price"/>
+          <div class="error-alert" *ngIf="addNewForm.controls.Price.errors && addNewForm.touched">
+            <div *ngIf="addNewForm.controls.Price.touched && addNewForm.controls.Price.errors.required">Price is required.</div>
+            <div *ngIf="addNewForm.controls.Price.touched && addNewForm.controls.Price.errors.pattern">Invalid Price.</div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-4">
+          <label>Frequency*</label>
+        </div>
+        <div class="col-md-8">
+          <select class="form-control" [(ngModel)]="model.Tenure" formControlName="Frequency">
+            <option value="0">--Select--</option>
+            <option value="Monthly">{{'Monthly'}} </option>
+            <option value="Qurterly">{{'Qurterly'}} </option>
+            <option value="Annually">{{'Annually'}} </option>
+          </select>
+          <div class="error-alert" *ngIf="addNewForm.controls.Frequency.errors && addNewForm.touched">
+            <div *ngIf="addNewForm.controls.Frequency.touched && addNewForm.controls.Frequency.errors.pattern">
+              Select Frequency.
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" [disabled]="!addNewForm.valid" *ngIf="!model.Id" class="btn btn-default">Add</button>
+        <button type="submit" [disabled]="!addNewForm.valid" *ngIf="model.Id" class="btn btn-default">Save</button>
+        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+      </div>
+    </form>
+    </div>
+</ng-template>
+</div>

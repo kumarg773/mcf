@@ -1,0 +1,83 @@
+.heading_h3{
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 6px;
+}
+.add_icon{
+    padding-right: 44px;
+}
+.add_icon{
+    margin-top: -2px;
+}
+.info_icon img, .add_icon img{
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-left: 15px;
+}
+.add_icon img{
+    float: right;
+}
+.sidebar_row{
+    background-color: black;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.ToolTip{
+    width: 400px;
+    position: absolute;
+    left: 0px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: 2px 2px 5px;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 12px
+}
+.share:hover, .video:hover{
+	background: white!important;
+	color: #B5000A;
+	border: 1px solid #B5000A;
+}
+.share, .video{
+    background: #B5000A;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 4px;
+    /* position: absolute; */
+    margin-left: 5px;
+    color: #fff;
+}
+.bs-example {
+    border: 1px solid lightgrey;
+    box-shadow: 0 0 3px #cfcaca;
+    border-radius: 5px;
+    padding-left: 2px;
+    height: 250px;
+    overflow: auto;
+    margin-bottom: 18px;
+}
+.scroll_bar::-webkit-scrollbar{
+	width: 8px;
+	background-color:#A4A7A6;
+}
+
+.scroll_bar::-webkit-scrollbar-thumb{
+    border-radius: 10px;
+    box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	-webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+	background-color: #F5F5F5;
+}
+.scroll_bar{
+	background: #fff;
+}
+.section{
+    background-color: #eaeaea;
+    padding-bottom: 10px;
+    margin-bottom: 17px;
+    margin-top: 6px;
+}

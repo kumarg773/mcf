@@ -1,0 +1,57 @@
+.form-control{
+    background-color: #000!important;
+    color: #fff;
+    opacity: 0.72;
+    font-family: 'Roboto',sans-serif;
+    text-align: center;
+    border: 2px solid #8B8F8E;
+    font-size: 19px!important;
+    height: 50px;
+  }
+  .login-btn{
+    background: #B5000A;
+    color: #FFF;
+    font-family: 'Bebas-Regular';
+    cursor: pointer;
+    border-top: 3px solid #B5000A;
+    border-left: 3px solid #B5000A;
+    border-right: 3px solid #B5000A;
+    border-bottom: 5px solid #7D0007;
+    font-size: 19px!important;
+    width: 100%;
+
+  }
+  *{
+      color: #FFF;
+  }
+  
+input[type="checkbox"] + label:before{
+	background-color: #000!important;
+	border: 2px solid #8B8F8E;
+	content: "\00a0";
+	display: inline-block;
+	font-family:'Roboto',sans-serif;
+	height: 24px;
+	margin: 0 .25em 0 0;
+	padding: 0;
+	vertical-align: middle;
+	width: 24px;
+	opacity:0.72;
+}
+
+input[type="checkbox"]:checked + label:before {
+  color:#fefefe;
+  content: "\2713";
+  text-align: center;
+}
+input[type="checkbox"]:checked + label:after {
+  font-weight: bold;
+}
+.footer img {
+  width: 127px;
+  margin-top: 50px;
+}
+.footer a:first-child:after{
+  content: "";
+  margin: 10px;
+}

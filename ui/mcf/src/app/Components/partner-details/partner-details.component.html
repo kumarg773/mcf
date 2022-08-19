@@ -1,0 +1,723 @@
+<div class="row sidebar_row">
+    <div class="col-md-4 col-xs-4 col-sm-4 info_icon">
+    </div>
+    <div class="col-md-4 col-xs-4 col-sm-4">
+      <h3 class="heading_h3">
+        Partner Details
+      </h3>
+    </div>
+    <div class="col-md-4 col-xs-4 col-sm-4 add_icon">
+      <img src="assets/images/Plus_Off.png" (click)="addClick(template)" />
+    </div>
+</div>
+<div class="row">
+  <div class="col-md-7"></div>
+  <div class="col-md-5">
+    <label>Search: </label> <input type="text" id="myInput"  title="Type in a name">
+  </div>
+</div>
+<div class="row">
+  <div class="table-responsive">
+      <table class="table table-striped" [mfData]="Partner" #mf="mfDataTable" [mfRowsOnPage]="5">
+      <thead>
+        <tr>
+          <th>Sl No</th>
+          <th>Partner Name1</th>
+          <th>Country Name</th>
+          <th>State Name</th>
+          <th>Post Code</th>
+          <th></th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let data of mf.data; let i = index">
+          <td>{{i+1}}</td>
+          <td>{{data.Partner_Name}}</td>   
+          <td>{{data.Country}}</td>
+          <td>{{data.Sate}}</td>   
+          <td>{{data.Zip_Code}}</td>
+          <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-eye-open" (click)="viewClick(template1,data)"></span></a></td>   
+          <td><a href="javascript:void(0)"><span class="glyphicon glyphicon-pencil" (click)="editPartner(template,data)"></span></a></td>
+        </tr>
+      </tbody>
+      <tfoot>
+        <tr>
+          <td colspan="12">
+            <mfBootstrapPaginator [rowsOnPageSet]="[5,10,25]"></mfBootstrapPaginator>
+          </td>
+        </tr>
+      </tfoot>
+    </table>
+  </div>
+  <ng-template #template>
+      <div class="modal-header modal-lg">
+          <h4 class="DialogHeading">Add Partner Details</h4>
+      </div>
+      <aw-wizard>
+        <aw-wizard-step stepTitle="Primary Details">
+          <form [formGroup]="AddUserStep1">
+              <div class="modal-body modal-lg">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Name*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" placeholder="Partner Name" [(ngModel)]= "model.Partner_Name" maxlength="100" class="form-control" formControlName="Name"/>
+                        <div class="error-alert" *ngIf="AddUserStep1.controls.Name.errors && AddUserStep1.touched">
+                          <div class="error-alert" *ngIf="AddUserStep1.controls.Name.errors.required">Partner Name is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Address*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" placeholder="Address" maxlength="100" [(ngModel)]= "model.Address" class="form-control" formControlName="Address"/>
+                        <div class="error-alert" *ngIf="AddUserStep1.controls.Address.errors && AddUserStep1.touched">
+                          <div class="error-alert" *ngIf="AddUserStep1.controls.Address.errors.required">Address is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Country*</label>
+                    </div>
+                    <div class="col-md-8">
+                          <select class="form-control" [(ngModel)]= "model.Country" formControlName="PartnerCountry" (change)="onChangeCountry($event.target.value)">
+                            <option *ngFor="let country of CountryData; let i = index" value="{{i}}">{{country.country}}</option>
+                          </select> 
+                          <!-- <div class="error-alert" *ngIf="AddUserStep1.controls.PartnerCountry.errors && AddUserStep1.touched">
+                            <div class="error-alert" *ngIf="AddUserStep1.controls.PartnerCountry.errors.required">Country is required</div> 
+                        </div> -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>State*</label>
+                    </div>
+                    <div class="col-md-8">
+                          <select class="form-control" formControlName="State" [(ngModel)]= "Sate">
+                            <option value="0">--Select State--</option>
+                            <option *ngFor="let state of StateData; let j = index" value="{{j}}">{{state}}</option>
+                          </select>  
+                          <!-- <div class="error-alert" *ngIf="AddUserStep1.controls.State.errors && AddUserStep1.touched">
+                            <div class="error-alert" *ngIf="AddUserStep1.controls.State.errors.required">State is required</div> 
+                        </div> -->
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Post Code*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" placeholder="PostCode" [(ngModel)]= "model.Zip_Code" maxlength="100" class="form-control" formControlName="PostCode"/>
+                        <div class="error-alert" *ngIf="AddUserStep1.controls.PostCode.errors && AddUserStep1.touched">
+                          <div class="error-alert" *ngIf="AddUserStep1.controls.PostCode.errors.required">Post Code is required</div> 
+                      </div>
+                    </div>                   
+                  </div>
+                  <div class="row">
+                      <div class="col-md-4">
+                        <label>Currency*</label>
+                      </div>
+                      <div class="col-md-8">
+                        <select class="form-control" class="form-control" [(ngModel)]="model.Currency" formControlName="Currency">
+                          <option value="">--Select--</option>
+                          <option *ngFor="let Currency of CurrencyData" value="{{Currency.value}}">{{Currency.innertext}}</option>
+                        </select>
+                        <div class="error-alert" *ngIf="AddUserStep1.controls.Currency.errors && AddUserStep1.touched">
+                          <div class="error-alert" *ngIf="AddUserStep1.controls.Currency.errors.required">Currency is required</div> 
+                      </div>
+                      </div>                   
+                    </div>
+                  <div class="modal-footer">
+                    <button [disabled]="!AddUserStep1.valid" type="button" class="btn btn-default" awNextStep>Proceed</button>
+                    <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+                  </div>
+                </div>
+          </form>
+        </aw-wizard-step>
+      <aw-wizard-step stepTitle="Term Deatils">
+          <form [formGroup]="AddUserStep2">
+              <div class="modal-body modal-lg">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Start Date*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <!-- <input type="date"  maxlength="100" class="form-control" [(ngModel)]="model.Start_Date" formControlName="Start_Date"/> -->
+                        <input class="form-control" readonly placeholder="startdate"  [(ngModel)]="model.Start_Date" [owlDateTimeTrigger]="dt1" [owlDateTime]="dt1" formControlName="Start_Date"/>
+                        <owl-date-time [pickerType]="'calendar'" #dt1></owl-date-time>
+                        <div class="error-alert" *ngIf="AddUserStep2.controls.Start_Date.errors && AddUserStep2.touched">
+                          <div class="error-alert" *ngIf="AddUserStep2.controls.Start_Date.errors.required">Start Date is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Term*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control" [(ngModel)]="model.Tenure" formControlName="Tenure">
+                          <option value="0">--Select--</option>
+                          <option value="Annual">{{'Annual'}} </option>
+                          <option value="2 Years">{{'2 Years'}} </option>
+                          <option value="3 Years">{{'3 Years'}} </option>
+                        </select>
+                        <div class="error-alert" *ngIf="AddUserStep2.controls.Tenure.errors && AddUserStep2.touched">
+                          <div class="error-alert" *ngIf="AddUserStep2.controls.Tenure.touched && AddUserStep2.controls.Tenure.errors.pattern">Term is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Due Date*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <!-- <input type="date"  maxlength="100" class="form-control" [(ngModel)]="model.Due_Date" formControlName="Due_Date"/> -->
+                      <input class="form-control" readonly placeholder="DueDate"  [(ngModel)]="model.Due_Date" [owlDateTimeTrigger]="dt2" [owlDateTime]="dt2" formControlName="Due_Date"/>
+                      <owl-date-time [pickerType]="'calendar'" #dt2></owl-date-time>
+                      <div class="error-alert" *ngIf="AddUserStep2.controls.Due_Date.errors && AddUserStep2.touched">
+                        <div class="error-alert" *ngIf="AddUserStep2.controls.Due_Date.errors.required">Due Date is required</div> 
+                    </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Rating*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control" [(ngModel)]="model.Rating" formControlName="Rating">
+                            <option value="0">--Select--</option>
+                            <option value="Silver">{{'Silver'}} </option>
+                            <option value="Gold">{{'Gold'}} </option>
+                            <option value="Platinum">{{'Platinum'}} </option>
+                          </select>
+                          <div class="error-alert" *ngIf="AddUserStep2.controls.Rating.errors && AddUserStep2.touched">
+                            <div class="error-alert" *ngIf="AddUserStep2.controls.Rating.touched && AddUserStep2.controls.Rating.errors.pattern">Rating is required</div> 
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Product*</label>
+                    </div>
+                    <div class="col-md-8">
+                      <select class="form-control" [(ngModel)]="partnerProduct.Product_Id" formControlName="Product">
+                        <option value="0">--Select--</option>
+                        <option *ngFor="let products of addPartner.Product" value="{{products.Id}}">{{products.Product_Name}}</option>
+                      </select>
+                      <div class="error-alert" *ngIf="AddUserStep2.controls.Product.errors && AddUserStep2.touched">
+                        <div class="error-alert" *ngIf="AddUserStep2.controls.Product.touched && AddUserStep2.controls.Product.errors.pattern">Product Name is required</div> 
+                    </div>
+                    </div>                   
+                  </div>
+                  <div class="bs-example scroll_bar">
+                    <div class="row section">
+                      <div class="col-md-12 text-center">
+                          <h4>L-Connectt Commission Details</h4>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div>
+                        <h4>First Cut</h4>
+                      </div>
+                      <div class="col-md-6">
+                        <label>Percentage</label>
+                        <input type="text"  maxlength="100" class="form-control" [(ngModel)]="partnerProduct.First_Cut_Percentage" formControlName="First_Cut_Percentage"/>
+                      </div> 
+                      <div class="col-md-6">
+                        <label>Start Date</label>
+                        <input class="form-control" readonly placeholder="Start Date"  [(ngModel)]="partnerProduct.First_Cut_Startdate" [owlDateTimeTrigger]="dt3" [owlDateTime]="dt3" formControlName="First_Cut_Startdate"/>
+                      <owl-date-time [pickerType]="'calendar'" #dt3></owl-date-time>
+                      </div>                   
+                    </div>
+                    <div class="row">
+                      <div>
+                          <h4>Progressive Cut</h4>
+                      </div>
+                      <div class="col-md-6">
+                        <label>Percentage</label>
+                        <input type="text"  maxlength="100" class="form-control" [(ngModel)]="partnerProduct.Progressive_Cut_Percentage" formControlName="Progressive_Cut_Percentage"/>
+                      </div> 
+                      <div class="col-md-6">
+                        <label>Start Date</label>
+                        <input class="form-control" readonly placeholder="Start Date"  [(ngModel)]="partnerProduct.Progressive_Cut_Startdate" [owlDateTimeTrigger]="dt4" [owlDateTime]="dt4" formControlName="Progressive_Cut_Startdate"/>
+                      <owl-date-time [pickerType]="'calendar'" #dt4></owl-date-time>
+                      </div>                   
+                    </div>
+                  </div>
+                  <div class="modal-footer">
+                        <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+                        <button [disabled]="!AddUserStep2.valid" type="button" class="btn btn-default" awNextStep>Proceed</button>
+                        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+                  </div>
+                </div>
+          </form>
+      </aw-wizard-step>
+      <aw-wizard-step stepTitle="Contact Person Deatils">
+          <form [formGroup]="AddUserStep3">
+              <div class="modal-body modal-lg">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Name*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text"  maxlength="100" [(ngModel)]="partnerContact.Contact_Person_Name" class="form-control" formControlName="ContactPersonName"/>
+                        <div class="error-alert" *ngIf="AddUserStep3.controls.ContactPersonName.errors && AddUserStep3.touched">
+                          <div class="error-alert" *ngIf="AddUserStep3.controls.ContactPersonName.errors.required">Contact Name is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Designation*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerContact.Designation" class="form-control" formControlName="Designation"/>
+                        <div class="error-alert" *ngIf="AddUserStep3.controls.Designation.errors && AddUserStep3.touched">
+                          <div class="error-alert" *ngIf="AddUserStep3.controls.Designation.errors.required">Designation is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Mobile Number*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerContact.Mobile_Number" class="form-control" formControlName="mobilenumber"/>
+                        <div class="error-alert" *ngIf="AddUserStep3.controls.mobilenumber.errors && AddUserStep3.touched">
+                          <div class="error-alert" *ngIf="AddUserStep3.controls.mobilenumber.errors.required">Mobile Number is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Alternative Number*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerContact.Alternate_Number" class="form-control" formControlName="contactalternativenumber"/> 
+                        <div class="error-alert" *ngIf="AddUserStep3.controls.contactalternativenumber.errors && AddUserStep3.touched">
+                          <div class="error-alert" *ngIf="AddUserStep3.controls.contactalternativenumber.errors.required">Alternative Number is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Email Address*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerContact.Email_Address" class="form-control" formControlName="emailaddress"/>
+                        <div class="error-alert" *ngIf="AddUserStep3.controls.emailaddress.errors && AddUserStep3.touched">
+                          <div class="error-alert" *ngIf="AddUserStep3.controls.emailaddress.errors.required">Email Address is required</div>
+                          <div *ngIf="AddUserStep3.controls.emailaddress.touched && AddUserStep3.controls.emailaddress.errors.email">Invalid Email address.</div>
+                          <div *ngIf="AddUserStep3.controls.emailaddress.touched && AddUserStep3.controls.emailaddress.errors.maxlength">Should not exceed 45 characters.</div>  
+                      </div>
+                    </div>                   
+                  </div>
+                  <div class="modal-footer">
+                        <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+                        <button [disabled]="!AddUserStep3.valid" type="button" class="btn btn-default" awNextStep>Proceed</button>
+                        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+                  </div>
+                </div>
+          </form>
+      </aw-wizard-step>
+      <aw-wizard-step stepTitle="Billing Contact Person Deatils">
+          <form [formGroup]="AddUserStep4">
+              <div class="modal-body modal-lg">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Name*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text"  maxlength="100" [(ngModel)]="partnerInventory.Billing_ContactPerson_Name" class="form-control" formControlName="ContactPersonName"/>
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.ContactPersonName.errors && AddUserStep4.touched">
+                          <div class="error-alert" *ngIf="AddUserStep4.controls.ContactPersonName.errors.required">Contact Name is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Designation*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerInventory.Partner_Designation" class="form-control" formControlName="Designation"/>
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.Designation.errors && AddUserStep4.touched">
+                          <div class="error-alert" *ngIf="AddUserStep4.controls.Designation.errors.required">Designation is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Mobile Number*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerInventory.Partner_Mobile_Number" class="form-control" formControlName="mobilenumber"/>
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.mobilenumber.errors && AddUserStep4.touched">
+                          <div class="error-alert" *ngIf="AddUserStep4.controls.mobilenumber.errors.required">Mobile Number is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Alternative Number*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerInventory.Partner_Alternate_Number" class="form-control" formControlName="alternativenumber"/> 
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.alternativenumber.errors && AddUserStep4.touched">
+                          <div class="error-alert" *ngIf="AddUserStep4.controls.alternativenumber.errors.required">Alternative Number is required</div> 
+                      </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Email Address*</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerInventory.Partner_Email_Address" class="form-control" formControlName="emailaddress"/>
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.emailaddress.errors && AddUserStep4.touched">
+                          <div class="error-alert" *ngIf="AddUserStep4.controls.emailaddress.errors.required">Email Address is required</div> 
+                          <div *ngIf="AddUserStep4.controls.emailaddress.touched && AddUserStep4.controls.emailaddress.errors.email">Invalid Email address.</div>
+                          <div *ngIf="AddUserStep4.controls.emailaddress.touched && AddUserStep4.controls.emailaddress.errors.maxlength">Should not exceed 45 characters.</div>  
+                      </div>
+                    </div>                   
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Mode Of Payment*</label>
+                    </div>
+                    <div class="col-md-8">
+                      <select class="form-control" [(ngModel)]="partnerInventory.Mode_Of_Payment" formControlName="ModeOfPayment">
+                        <option value="0">--Select--</option>
+                        <option value="Silver">{{'Silver'}} </option>
+                        <option value="Gold">{{'Gold'}} </option>
+                        <option value="Platinum">{{'Platinum'}} </option>
+                      </select>
+                      <div class="error-alert" *ngIf="AddUserStep4.controls.ModeOfPayment.errors && AddUserStep4.touched">
+                        <div class="error-alert" *ngIf="AddUserStep4.controls.ModeOfPayment.touched && AddUserStep4.controls.ModeOfPayment.errors.pattern">Mode Of Payment is required</div> 
+                    </div>
+                    </div>                   
+                  </div>
+                  <div class="modal-footer">
+                        <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+                        <button [disabled]="!AddUserStep4.valid" type="button" class="btn btn-default" awNextStep>Proceed</button>
+                        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+                  </div>
+                </div>
+          </form>
+      </aw-wizard-step>
+      <aw-wizard-step stepTitle="Bank Deatils">
+          <form [formGroup]="AddUserStep5">
+              <div class="modal-body modal-lg">
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Bank</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text"  maxlength="100" [(ngModel)]="partnerInventory.Bank_Name" class="form-control" formControlName="BankName"/>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Branch Address</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerInventory.Branch_Address" class="form-control" formControlName="branchaddress"/>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Country</label>
+                    </div>
+                    <div class="col-md-8">
+                        <select class="form-control" [(ngModel)]= "model.Country" formControlName="country">
+                          <option *ngFor="let country of CountryData" value="{{country.country}}">{{country.country}}</option>
+                        </select> 
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>Account Number</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerInventory.Account_Number" class="form-control" formControlName="accountenumber"/> 
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-4">
+                      <label>IFSC Code</label>
+                    </div>
+                    <div class="col-md-8">
+                        <input type="text" maxlength="100" [(ngModel)]="partnerInventory.Ifsc_Code" class="form-control" formControlName="ifsccode"/>
+                    </div>                   
+                  </div>
+                  <div class="row">
+                      <div class="col-md-4">
+                        <label>Swift Code</label>
+                      </div>
+                      <div class="col-md-8">
+                          <input type="text" maxlength="100" [(ngModel)]="partnerInventory.Swift_Code" class="form-control" formControlName="swiftcode"/>
+                      </div>                   
+                    </div>
+                  <div class="modal-footer">
+                        <button class="btn btn-default" type="button" awPreviousStep>Back</button>
+                        <button  type="button" class="btn btn-default" (click)="callSubmit()" awNextStep>Save</button>
+                        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+                  </div>
+                </div>
+          </form>
+      </aw-wizard-step>
+      </aw-wizard>
+  </ng-template>
+
+  <ng-template #template1>
+    <div class="modal-header modal-lg">
+        <h4 class="DialogHeading">Primary Details</h4>
+    </div>
+    <div class="modal-body profileContent modal-lg">
+      <accordion>
+          <accordion-group heading="Primary Details">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Name</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Partner_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Address</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Address}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Country</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Country}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>State</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Sate}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Post Code</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{model.Zip_Code}}</label>
+                </div>
+              </div>
+              <div class="row">
+                  <div class="col-md-4">
+                    <label><b>Currency</b></label>
+                  </div>
+                  <div class="col-md-4">
+                      <label>{{model.Currency}}</label>
+                  </div>
+              </div>
+          </accordion-group>
+          <accordion-group heading="Term Details">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Start Date</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Start_Date | date:'MMM d, y'}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Term</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Tenure}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Due Date</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Due_Date | date:'MMM d, y'}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Rating</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{model.Rating}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Product</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{partnerProduct.Product_Name}}</label>
+                </div>
+              </div>
+          </accordion-group>
+          <accordion-group heading="Management Contact Person Details">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Name</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerContact.Contact_Person_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Designation</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerContact.Designation}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Mobile Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerContact.Mobile_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Alternative Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerContact.Alternate_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Email Address</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{partnerContact.Email_Address}}</label>
+                </div>
+              </div>
+          </accordion-group>
+          <accordion-group heading="Billing Contact Person Details">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Name</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerInventory.Billing_ContactPerson_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Designation</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerInventory.Partner_Designation}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Mobile Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerInventory.Partner_Mobile_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Alternative Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerInventory.Partner_Alternate_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Email Address</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{partnerInventory.Partner_Email_Address}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Mode of Payment</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{partnerInventory.Mode_Of_Payment}}</label>
+                </div>
+              </div>
+          </accordion-group>
+          <accordion-group heading="Banking Details">
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Bank</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerInventory.Bank_Name}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Branch Address</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerInventory.Branch_Address}}</label> 
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Country</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerInventory.Partner_Country}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Account Number</b></label>
+                </div>
+                <div class="col-md-4">
+                  <label>{{partnerInventory.Account_Number}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>IFSC Code</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{partnerInventory.Ifsc_Code}}</label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-4">
+                  <label><b>Swift Code</b></label>
+                </div>
+                <div class="col-md-4">
+                    <label>{{partnerInventory.Swift_Code}}</label>
+                </div>
+              </div>
+          </accordion-group>
+      </accordion>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-default" (click)="callClose()">Cancel</button>
+      </div>
+  </ng-template>
+
+</div>

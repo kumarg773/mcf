@@ -1,0 +1,54 @@
+.heading_h3{
+    color: white;
+    text-align: center;
+    margin-top: 5px;
+    margin-bottom: 6px;
+}
+.add_icon{
+    padding-right: 44px;
+}
+.add_icon{
+    margin-top: -2px;
+}
+.info_icon img, .add_icon img{
+    width: 30px;
+    height: 30px;
+    border-radius: 5px;
+    margin-top: 5px;
+    margin-left: 15px;
+}
+.add_icon img{
+    float: right;
+}
+.sidebar_row{
+    background-color: black;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+.ToolTip{
+    width: 400px;
+    position: absolute;
+    left: 0px;
+    z-index: 1000;
+    background: #ffffff;
+    border: 1px solid #cccccc;
+    box-shadow: 2px 2px 5px;
+    border-radius: 5px;
+    padding: 5px;
+    margin-top: 5px;
+    font-size: 12px
+}
+.share:hover, .video:hover{
+	background: white!important;
+	color: #B5000A;
+	border: 1px solid #B5000A;
+}
+.share, .video{
+    background: #B5000A;
+    padding: 8px;
+    border-radius: 5px;
+    margin-top: 4px;
+    /* position: absolute; */
+    margin-left: 5px;
+    color: #fff;
+}
